@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     }
     var httpLink = "";
 
-    var tags = data.event && data.event.tags;
+    var tags = httpdata.tags;
     var tagsString = "";
     if (tags) {
       tagsString = tags
@@ -40,11 +40,11 @@ export default async function handler(req, res) {
       httpLink = `${httpdata.url}?${httpdata.query_string || ""}`;
     }
 
-    var markdownText = `### [${keyword} : ${data.event.title || "错误信息"}](${
+    var markdownText = `### [${keyword} : ${httpdata.title || "错误信息"}](${
       data.url
     })\n> ${data.project_name}  \n> [${
       data.culprit || "错误页面"
-    }](${httpLink})  \n${tagsString}  \n`;
+    }](${httpLink})  \n${tagsString}  \n  ${mobile ? '@'+mobile : ''}  \n`;
 
     console.log('data:', data)
     console.log('markdownText:', markdownText)
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     await axios.post(req.query.url, {
       msgtype: "markdown",
       markdown: {
-        title: data.event.title,
+        title: httpdata.title,
         text: markdownText,
       },
       at: {

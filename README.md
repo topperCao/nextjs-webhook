@@ -1,13 +1,5 @@
 # webhook 转发服务文档
 
-## 页面地址
-
-https://webhook.kaokei.com/
-
-## 接口服务地址
-
-https://webhook.kaokei.com/api/dingding/sentry
-
 ## 使用方式
 
 目前只实现了 sentry 的 webhook 转发到钉钉。
@@ -16,7 +8,7 @@ https://webhook.kaokei.com/api/dingding/sentry
 
 https://oapi.dingtalk.com/robot/send?access_token=1111122222223333334444445555566667777888899900011122233344455566
 
-第二步，拼接参数到`https://webhook.kaokei.com/api/dingding/sentry`这个链接
+第二步，拼接参数到`https://demo.com/api/dingding/sentry`这个链接
 
 目前支持 4 个参数：
 
@@ -30,8 +22,5 @@ https://oapi.dingtalk.com/robot/send?access_token=111112222222333333444444555556
 
 参考示例如下：
 
-https://webhook.kaokei.com/api/dingding/sentry?url=https%3A%2F%2Foapi.dingtalk.com%2Frobot%2Fsend%3Faccess_token%3D1111122222223333334444445555566667777888899900011122233344455566&mobile=13911112222&keyword=监控报警&level=info&level=error
+https://demo.com/api/dingding/sentry?url=https%3A%2F%2Foapi.dingtalk.com%2Frobot%2Fsend%3Faccess_token%3D1111122222223333334444445555566667777888899900011122233344455566&mobile=13911112222&keyword=监控报警&level=info&level=error
 
-## 部署到 vercel.app
-
-有需要的话，可以直接使用我的 git 仓库在 https://vercel.com/ 上部署自己的服务
