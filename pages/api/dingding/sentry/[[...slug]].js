@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     var data = req.body || {};
     var mobile = req.query.mobile || "";
-    var keyword = req.query.keyword || "监控报警";
+    var keyword = req.query.keyword || "前端监控报警";
     var level = req.query.level;
     if (level) {
       if (level === "all") {
@@ -21,7 +21,11 @@ export default async function handler(req, res) {
       }
     }
 
-    var httpdata = data.event && data.event["sentry.interfaces.Http"];
+    // var httpdata = data.event && data.event["sentry.interfaces.Http"];
+    var httpdata = data.event;
+    if (!httpdata) {
+      return res.send("webhook forward filtered");
+    }
     var httpLink = "";
 
     var tags = data.event && data.event.tags;
@@ -36,11 +40,11 @@ export default async function handler(req, res) {
       httpLink = `${httpdata.url}?${httpdata.query_string || ""}`;
     }
 
-    var markdownText = `# [${keyword} : ${data.message || "错误信息"}](${
+    var markdownText = `### [${keyword} : ${data.event.title || "错误信息"}](${
       data.url
     })\n> ${data.project_name}  \n> [${
       data.culprit || "错误页面"
-    }](${httpLink})  \n${tagsString}  \n  @${mobile}  \n`;
+    }](${httpLink})  \n${tagsString}  \n`;
 
     console.log('data:', data)
     console.log('markdownText:', markdownText)
@@ -48,7 +52,7 @@ export default async function handler(req, res) {
     await axios.post(req.query.url, {
       msgtype: "markdown",
       markdown: {
-        title: data.message,
+        title: data.event.title,
         text: markdownText,
       },
       at: {
