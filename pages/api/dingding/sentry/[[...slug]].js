@@ -42,6 +42,9 @@ export default async function handler(req, res) {
       data.culprit || "错误页面"
     }](${httpLink})  \n${tagsString}  \n  @${mobile}  \n`;
 
+    console.log('data:', data)
+    console.log('markdownText:', markdownText)
+
     await axios.post(req.query.url, {
       msgtype: "markdown",
       markdown: {
@@ -53,6 +56,7 @@ export default async function handler(req, res) {
         isAtAll: false,
       },
     });
+    console.log("webhook forward success")
     res.send("webhook forward success");
   } catch (e) {
     console.log("dingding sentry axios post error :>> ", e);
